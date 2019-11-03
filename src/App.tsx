@@ -4,6 +4,8 @@ import { useQuery } from "@apollo/react-hooks";
 import { IStudyData, IStudyVariables } from "./interfaces/study";
 import { GET_STUDY_BY_ID } from "./queries/study";
 
+import { Button } from "./styles/button";
+
 const App: React.FC = () => {
   const { data } = useQuery<IStudyData, IStudyVariables>(GET_STUDY_BY_ID, {
     variables: { id: 1 }
@@ -18,6 +20,7 @@ const App: React.FC = () => {
         <span role="img" aria-label="rocket">
           🚀
         </span>
+        <Button danger={false}>행복하자~~~</Button>
       </h2>
     </div>
   );
