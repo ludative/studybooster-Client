@@ -1,17 +1,20 @@
 import * as React from "react";
-import { Button } from "./styles/button";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
+import { ApolloProvider } from "@apollo/react-hooks";
+import client from "./client";
+
+import Main from "./components/Main";
+import Login from "./components/Login";
 
 const App: React.FC = () => {
   return (
-    <div>
-      <h2>
-        StudyBooster{" "}
-        <span role="img" aria-label="rocket">
-          🚀
-        </span>
-        <Button>로그인</Button>
-      </h2>
-    </div>
+    <ApolloProvider client={client}>
+      <Router>
+        <Route exact={true} path="/" component={Main} />
+        <Route path="/login" component={Login} />
+      </Router>
+    </ApolloProvider>
   );
 };
 
