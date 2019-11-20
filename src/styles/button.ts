@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const Button = styled.button`
+interface IButtonProps {
+  login: boolean;
+}
+
+export const Button = styled.button<IButtonProps>`
   border-radius: 50px;
   padding: 5px;
   min-width: 120px;
