@@ -11,36 +11,41 @@ const LoginComponents = ({}: LoginProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const login = () => {
-    signIn({ variables: { email, password } });
-    setEmail("");
-    setPassword("");
+  const login = async (): Promise<void> => {
+    try {
+      const result = await signIn({ variables: { email, password } });
+      if (result) {
+        setEmail("");
+        setPassword("");
+      }
+      console.log(result);
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   return (
-    <div>
-      <>
-        <input
-          value={email}
-          name="email"
-          onChange={({ target: { value } }) => setEmail(value)}
-          placeholder="email"
-          disabled={loading}
-        />
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={({ target: { value } }) => setPassword(value)}
-          placeholder="password"
-          disabled={loading}
-        />
-        <Button onClick={login} disabled={loading} login={true}>
-          로그인
-        </Button>
-        {error && <p style={{ color: "red" }}>Error :(</p>}
-      </>
-    </div>
+    <>
+      <input
+        value={email}
+        name="email"
+        onChange={({ target: { value } }) => setEmail(value)}
+        placeholder="email"
+        disabled={loading}
+      />
+      <input
+        type="password"
+        name="password"
+        value={password}
+        onChange={({ target: { value } }) => setPassword(value)}
+        placeholder="password"
+        disabled={loading}
+      />
+      <Button onClick={login} disabled={loading} login={true}>
+        로그인
+      </Button>
+      {error && <p style={{ color: "red" }}>Error :(</p>}
+    </>
   );
 };
 
