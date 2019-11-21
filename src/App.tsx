@@ -1,27 +1,45 @@
-import * as React from "react";
-import { useQuery } from "@apollo/react-hooks";
-
-import { IStudyData, IStudyVariables } from "@/interfaces/study";
-import { GET_STUDY_BY_ID } from "@/queries/study";
-
+import React, { useState } from "react";
+import Input, { IInputReturnData } from "@/components/Common/input";
 import { Button } from "@/styles/button";
 
 const App: React.FC = () => {
-  const { data } = useQuery<IStudyData, IStudyVariables>(GET_STUDY_BY_ID, {
-    variables: { id: 1 }
-  });
+  const [name, setName] = useState("");
+  const handleChange = ({ value, name }: IInputReturnData) => {
+    if (name === "name") {
+      setName(value);
+    }
 
-  console.log(data);
+    if (name === "count") {
+      setCount(+value);
+    }
+  };
+
+  const [count, setCount] = useState<number | string>("");
 
   return (
     <div>
-      <h2>
+      <div>
         My first Apollo app{" "}
         <span role="img" aria-label="rocket">
           🚀
         </span>
         <Button danger={false}>행복하자~~~</Button>
-      </h2>
+        <Input
+          value={name}
+          name={"name"}
+          onChange={handleChange}
+          maxLength={3}
+        />
+        <Input
+          type={"number"}
+          value={count}
+          name={"count"}
+          onChange={handleChange}
+          max={3}
+        />
+        <h1>name: {name}</h1>
+        <h2>count: {count}</h2>
+      </div>
     </div>
   );
 };
