@@ -5,16 +5,12 @@ export const SIGN_IN = gql`
     signIn(email: $email, password: $password) {
       token
       user {
-        id
-        email
-        nickname
-        introduction
-        profileImage
-        isAdmin
-        deleted
-        isValidEmail
-        createdAt
-        updatedAt
+        ... on User {
+          id
+          email
+          nickname
+          introduction
+        }
       }
     }
   }
