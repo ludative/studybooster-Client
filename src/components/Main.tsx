@@ -1,8 +1,6 @@
 import React from "react";
 
-export interface MainProps {}
-
-const Main = ({}: MainProps): JSX.Element => (
+const Main = (): JSX.Element => (
   <div>
     <h2>
       StudyBooster{" "}
