@@ -3,17 +3,19 @@ import { useMutation } from "@apollo/react-hooks";
 import { SIGN_IN } from "../mutations/user";
 import { Button } from "../styles/button";
 
-export interface LoginProps {}
+import { IUser } from "../interfaces/user";
 
-const LoginComponents = ({}: LoginProps) => {
-  const [signIn, { loading, error }] = useMutation(SIGN_IN);
+const LoginComponents = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [signIn, { loading, error }] = useMutation<{ signIn: IUser }>(SIGN_IN, {
+    variables: { email, password }
+  });
 
   const login = async (): Promise<void> => {
     try {
-      const result = await signIn({ variables: { email, password } });
+      const result = await signIn();
       if (result) {
         setEmail("");
         setPassword("");
