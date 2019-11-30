@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import Input, { IInputReturnData } from "@/components/Common/input";
+import CheckBox, { ICheckBoxReturnData } from "@/components/Common/checkbox";
 import { Button } from "@/styles/button";
 
 const App: React.FC = () => {
-  const [name, setName] = useState("");
+  const [name, setName] = useState<string>("");
+  const [count, setCount] = useState<number | string>("");
+  const [check, setCheck] = useState<boolean | undefined>(false);
   const handleChange = ({ value, name }: IInputReturnData) => {
     if (name === "name") {
       setName(value);
@@ -13,8 +16,10 @@ const App: React.FC = () => {
       setCount(+value);
     }
   };
-
-  const [count, setCount] = useState<number | string>("");
+  const handleCheck = ({ checked }: ICheckBoxReturnData): void => {
+    console.log("checked", checked);
+    setCheck(!checked);
+  };
 
   return (
     <div>
@@ -39,6 +44,14 @@ const App: React.FC = () => {
         />
         <h1>name: {name}</h1>
         <h2>count: {count}</h2>
+      </div>
+      <div>
+        <CheckBox
+          id="ch1"
+          name="checkbox"
+          checked={check}
+          onChange={handleCheck}
+        />
       </div>
     </div>
   );
