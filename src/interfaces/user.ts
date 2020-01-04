@@ -1,6 +1,7 @@
 export interface IUser {
   id: String;
   email: String;
+  password: String;
   nickname: String;
   introduction: String;
   profileImage: String;
