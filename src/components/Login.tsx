@@ -13,15 +13,6 @@ const LoginComponents = () => {
     variables: { email: watch("email"), password: watch("password") }
   });
 
-  // const login = async (): Promise<void> => {
-  //   try {
-  //     const result = await signIn();
-  //     console.log(result);
-  //   } catch (error) {
-  //     console.log("error", error);
-  //   }
-  // };
-
   const onSubmit = handleSubmit(async () => {
     try {
       const result = await signIn();
