@@ -21,7 +21,7 @@ const Login: React.FC = () => {
   const onSubmit = handleSubmit(async () => {
     try {
       const response = await signIn();
-      if (response.data?.signIn) {
+      if (response?.data?.signIn?.token) {
         setTokenLocalStorage(response.data.signIn.token);
         history.push("/");
       }
@@ -33,20 +33,20 @@ const Login: React.FC = () => {
   return (
     <Container>
       <form onSubmit={onSubmit}>
-        <Grid container direction={"column"} spacing={1}>
+        <Grid container direction={"column"} justify={"center"} spacing={1}>
           <h2>로그인</h2>
           <TextField
             name="email"
             label="Email*"
             inputRef={register({ required: true })}
           />
-          {errors.email && <p>Email is required :( </p>}
+          {errors?.email && <p>Email is required :( </p>}
           <TextField
             name="password"
             label="Password*"
             inputRef={register({ required: true })}
           />
-          {errors.password && <p>Password is required :(</p>}
+          {errors?.password && <p>Password is required :(</p>}
           <Button type={"submit"}>Login</Button>
         </Grid>
       </form>
