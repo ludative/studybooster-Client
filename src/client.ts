@@ -9,12 +9,12 @@ const httpLink = createHttpLink({ uri: "http://localhost:4000" });
 // authLink for Header
 const authLink = setContext((_, { headers }) => {
   // Get the authentication token from local storage if it exists
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("sb-token");
   // Return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
-      authorization: token ? token : ""
+      "sb-token": token ? token : ""
     }
   };
 });
