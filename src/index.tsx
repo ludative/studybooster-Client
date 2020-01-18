@@ -3,11 +3,11 @@ import * as ReactDOM from "react-dom";
 
 import { ApolloProvider } from "@apollo/react-hooks";
 import client from "./client";
-import App from "./App";
+import Routes from "@/Routes";
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />
+    <Routes />
   </ApolloProvider>,
   document.getElementById("root")
 );
