@@ -4,6 +4,8 @@ import { useQuery } from "@apollo/react-hooks";
 import { IStudyData, IStudyVariables } from "@/interfaces/study";
 import { GET_STUDY_BY_ID } from "@/queries/study";
 
+import InputButton from "@/components/InputButton";
+
 const App: React.FC = () => {
   const { data } = useQuery<IStudyData, IStudyVariables>(GET_STUDY_BY_ID, {
     variables: { id: 1 }
@@ -19,6 +21,8 @@ const App: React.FC = () => {
           🚀
         </span>
       </h2>
+
+      <InputButton />
     </div>
   );
 };
