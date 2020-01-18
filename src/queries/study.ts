@@ -1,5 +1,17 @@
 import gql from "graphql-tag";
 
+export const GET_STUDIES = gql`
+  query getStudies($paginationParams: PaginationInput, $params: GetStudyInput, $isMine: Boolean!) {
+    getStudies(paginationParams: $paginationParams, params: $params, isMine: $isMine) {
+      count
+      rows {
+        name
+        description
+      }
+    }
+  }
+`;
+
 export const GET_STUDY_BY_ID = gql`
   query getStudyById($id: Int!) {
     getStudyById(id: $id) {
