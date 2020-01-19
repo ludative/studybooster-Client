@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import * as React from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/react-hooks";
 import { useHistory } from "react-router-dom";
