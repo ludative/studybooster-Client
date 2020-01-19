@@ -1,54 +1,83 @@
 import { IUser } from "./user";
+import {IPaginationInput} from './common'
 
 export interface IStudy {
-  id: String;
-  name: String;
-  description: String;
-  startDate: Number;
-  endDate: Number;
-  startTime: Number;
-  endTime: Number;
-  weekPeriod: Number;
-  location: String;
-  customSubject: String;
-  thumbnail: String;
-  limitedMemberCount: Number;
-  isPrivate: Boolean;
-  UserId: Number;
-  StudySubjectId: Number;
-  StudySubject: [IStudySubject];
-  StudyDays: [IStudyDays];
-  StudyMembers: [IStudyMembers];
-  createdAt: String;
-  updatedAt: String;
+  id?: string;
+  name?: string;
+  description?: string;
+  startDate?: number;
+  endDate?: number;
+  startTime?: number;
+  endTime?: number;
+  weekPeriod?: number;
+  location?: string;
+  customSubject?: string;
+  thumbnail?: string;
+  limitedMemberCount?: number;
+  isPrivate?: boolean;
+  UserId?: number;
+  StudySubjectId?: number;
+  StudySubject?: IStudySubject[];
+  StudyDays?: IStudyDays[];
+  StudyMembers?: IStudyMembers[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IStudySubject {
-  id: String;
-  title: String;
+  id: string;
+  title: string;
 }
 
 export interface IStudyDays {
-  id: String;
-  day: Number;
+  id: string;
+  day: number;
 }
 
 export interface IStudyMembers {
-  id: String;
-  isApprove: Boolean;
-  isReject: Boolean;
-  rejectReason: String;
-  isBanish: Boolean;
-  banishReason: String;
-  UserId: Number;
-  StudyId: Number;
-  User: [IUser];
+  id: string;
+  isApprove: boolean;
+  isReject: boolean;
+  rejectReason: string;
+  isBanish: boolean;
+  banishReason: string;
+  UserId: number;
+  StudyId: number;
+  User: IUser[];
 }
 
-export interface IStudyData {
-  getStudyById: IStudy;
+export interface IStudyDayInput {
+  id: string;
+  day: number;
 }
 
-export interface IStudyVariables {
-  id: Number;
+export interface IGetStudyInput {
+  name?: string;
+  description?: string;
+  startDate?: number;
+  endDate?: number;
+  startTime?: number;
+  endTime?: number;
+  weekPeriod?: number;
+  location?: string;
+  customSubject?: string;
+  limitedMemberCount?: number;
+  isPrivate?: boolean;
+  UserId?: number;
+  StudyDays?: IStudyDayInput[];
+  orderBy?: string;
+  orderDirection?: string;
+}
+
+export interface IStudiesData {
+  getStudies: {
+    count: number;
+    rows: IStudy[];
+  };
+}
+
+export interface IStudiesVariables {
+  params: IGetStudyInput;
+  paginationParams: IPaginationInput;
+  isMine: boolean;
 }
