@@ -1,3 +1,5 @@
+import {ISuccessResult} from "@/interfaces/common";
+
 export interface IUser {
   id: string;
   email: string;
@@ -22,4 +24,16 @@ export interface IUserInput {
   nickname?: string;
   introduction?: string;
   profileImage?: string;
+}
+
+export interface ISendMailValidationData {
+  sendMailValidation: ISuccessResult;
+}
+
+export interface IUpdateUserIsValidEmailData {
+  updateUserIsValidEmail: ISuccessResult;
+}
+
+export interface IUpdateUserIsValidEmailVariables {
+  token: string;
 }

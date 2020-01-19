@@ -6,8 +6,9 @@ import {teal} from "@material-ui/core/colors";
 // Pages
 import Main from "@/containers/Main";
 import Studies from "@/containers/Studies";
-import EmailValidation from "@/containers/EmailValidation";
+import ResendEmail from "@/containers/ResendEmail";
 import Login from "@/containers/Login";
+import EmailValidation from "@/containers/EmailValidation";
 
 export default () => {
   const theme = createMuiTheme({
@@ -22,7 +23,8 @@ export default () => {
           <Route exact path="/" component={Main} />
           <Route exact path="/studies" component={Studies} />
           <Route path="/login" component={Login} />
-          <Route exact path={"/email-validation"} component={EmailValidation}/>
+          <Route exact path={"/resend-email"} component={ResendEmail}/>
+          <Route exact path={"/validation/:token"} component={EmailValidation}/>
         </ThemeProvider>
       </Router>
   )

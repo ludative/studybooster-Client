@@ -1,23 +1,33 @@
-import React from "react";
-import {Container} from "@material-ui/core";
-import TypographyComponent from '@/components/Typography';
-
-const typographyStyles = {
-    root: {
-        marginTop: '30px'
-    }
-};
+import React, {useEffect} from "react";
+import {useHistory, useParams} from "react-router-dom";
+import {useMutation} from "@apollo/react-hooks";
+import {UPDATE_USER_IS_VALID_EMAIL} from "@/mutations/user";
+import {IUpdateUserIsValidEmailData, IUpdateUserIsValidEmailVariables} from "@/interfaces/user";
+import {removeTokenLocalStorage, setTokenLocalStorage} from "@/utils/localStorage";
 
 const EmailValidation: React.FC = () => {
+    const history = useHistory();
+    const {token} = useParams();
+    const [updateUserIsValidEmail] = useMutation<IUpdateUserIsValidEmailData, IUpdateUserIsValidEmailVariables>(UPDATE_USER_IS_VALID_EMAIL);
+    const updateUserIsValidEmailPromise = async (): Promise<void> => {
+        try {
+            const {data} = await updateUserIsValidEmail({variables: {token}});
+            if (data?.updateUserIsValidEmail?.isSuccess) {
+                alert('이메일 검증이 완료되었습니다.');
+                setTokenLocalStorage(token);
+                history.push('/');
+            }
+        } catch (e) {
+            alert(e?.message);
+            removeTokenLocalStorage();
+            history.push('/login');
+        }
+    };
+    useEffect(() => {
+        updateUserIsValidEmailPromise();
+    }, []);
     return (
-        <Container>
-            <TypographyComponent
-                styles={typographyStyles}
-                variant={"h3"}
-                align={"center"}
-                text={"이메일 검증을 완료해주세요!"}
-            />
-        </Container>
+        <div>Loading...</div>
     )
 };
 
