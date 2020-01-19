@@ -13,7 +13,6 @@ import { setTokenLocalStorage } from "@/utils/localStorage";
 const Login: React.FC = () => {
   const { register, handleSubmit, watch, errors } = useForm<IUserInput>();
   const history = useHistory();
-
   const [signIn] = useMutation<{ signIn: IUserWithToken }>(SIGN_IN, {
     variables: { email: watch("email"), password: watch("password") }
   });
@@ -39,14 +38,16 @@ const Login: React.FC = () => {
             name="email"
             label="Email*"
             inputRef={register({ required: true })}
+            error={errors?.email ? true : false}
+            helperText={errors?.email ? "Email is required :(" : ""}
           />
-          {errors?.email && <p>Email is required :( </p>}
           <TextField
             name="password"
             label="Password*"
             inputRef={register({ required: true })}
+            error={errors?.password ? true : false}
+            helperText={errors?.password ? "Password is required :(" : ""}
           />
-          {errors?.password && <p>Password is required :(</p>}
           <Button type={"submit"}>Login</Button>
         </Grid>
       </form>
