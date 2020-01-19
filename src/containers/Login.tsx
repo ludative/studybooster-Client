@@ -1,7 +1,8 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/react-hooks";
 import { useHistory } from "react-router-dom";
+import * as yup from "yup";
 
 import { IUserWithToken, IUserInput } from "@/interfaces/user";
 
@@ -10,8 +11,23 @@ import { Button, TextField, Container, Grid } from "@material-ui/core";
 
 import { setTokenLocalStorage } from "@/utils/localStorage";
 
+const passwordRegex = /(?=.*[a-zA-Z])(?=.*[-₩`~!@#$%^&*=|\\\'\";\/()_+|<>?,.:{}])(?=.*[0-9]).{8,}/;
+const SigninSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email()
+    .required(),
+  password: yup
+    .string()
+    .matches(passwordRegex)
+    .required()
+});
+
 const Login: React.FC = () => {
-  const { register, handleSubmit, watch, errors } = useForm<IUserInput>();
+  const { register, handleSubmit, watch, errors } = useForm<IUserInput>({
+    validationSchema: SigninSchema
+  });
+
   const history = useHistory();
   const [signIn] = useMutation<{ signIn: IUserWithToken }>(SIGN_IN, {
     variables: { email: watch("email"), password: watch("password") }
@@ -39,14 +55,14 @@ const Login: React.FC = () => {
             label="Email*"
             inputRef={register({ required: true })}
             error={errors?.email ? true : false}
-            helperText={errors?.email ? "Email is required :(" : ""}
+            helperText={errors?.email?.message}
           />
           <TextField
             name="password"
             label="Password*"
             inputRef={register({ required: true })}
             error={errors?.password ? true : false}
-            helperText={errors?.password ? "Password is required :(" : ""}
+            helperText={errors?.password?.message}
           />
           <Button type={"submit"}>Login</Button>
         </Grid>
