@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Container,
+  Grid,
   GridList,
   GridListTile,
   GridListTileBar,
@@ -83,16 +84,25 @@ const Studies: React.FC = () => {
   return (
     <Container>
       <Typography styles={typographyStyles} variant="h3" text="스터디 리스트" />
-      <Box style={{ marginBottom: 20 }}>
+      <Grid
+        container
+        style={{ marginBottom: 20 }}
+        justify="space-between"
+        alignItems="center"
+      >
         <TextField
-          label="검색"
+          variant="outlined"
+          label="Search (Title)"
+          size="small"
           name="name"
           onChange={({ target }) =>
             setParams(state => ({ ...state, [target.name]: target.value }))
           }
         />
-        <Button>스터디 개설</Button>
-      </Box>
+        <Button variant="outlined" color="primary">
+          스터디 개설
+        </Button>
+      </Grid>
       <Box>
         <GridList cols={3}>
           {studies.map((study: IStudy, index: number) => (
