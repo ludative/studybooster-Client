@@ -1,32 +1,42 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from "react";
 import {
-  Box, Button,
+  Box,
+  Button,
   Container,
-  GridList, GridListTile,
-  GridListTileBar, IconButton,
+  GridList,
+  GridListTile,
+  GridListTileBar,
+  IconButton,
+  TextField,
   Typography
 } from "@material-ui/core";
-import { StarBorder} from "@material-ui/icons";
+import { StarBorder } from "@material-ui/icons";
 
-import {useQuery} from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
 
-import { IStudiesData, IStudiesVariables, IStudy } from "@/interfaces/study";
-import { IPaginationInput } from '@/interfaces/common'
+import {
+  IStudiesData,
+  IStudiesVariables,
+  IGetStudyInput,
+  IStudy
+} from "@/interfaces/study";
+import { IPaginationInput } from "@/interfaces/common";
 import { GET_STUDIES } from "@/queries/study";
 
 import Pagination from "@/components/Pagination";
-import calcPagination from "@/utils/calcPagination"
+import calcPagination from "@/utils/calcPagination";
 
 const Studies: React.FC = () => {
   const [studies, setStudies] = useState<IStudy[]>([]);
-  const [count, setCount] = useState<number>(0)
-  const [numberOfPages, setNumberOfPages] = useState<number>(0)
+  const [count, setCount] = useState<number>(0);
+  const [numberOfPages, setNumberOfPages] = useState<number>(0);
   const [paginationParams, setPaginationParams] = useState<IPaginationInput>({
     page: 1,
-    pageSize: 1
-  })
+    pageSize: 12
+  });
+  const [params, setParams] = useState<IGetStudyInput>({ name: "" });
   const { data } = useQuery<IStudiesData, IStudiesVariables>(GET_STUDIES, {
-    variables: { paginationParams, params: { name: "" }, isMine: false }
+    variables: { paginationParams, params, isMine: false }
   });
 
   const getStudies = page => {
@@ -34,15 +44,15 @@ const Studies: React.FC = () => {
       page,
       pageSize: paginationParams.pageSize,
       count
-    })
+    });
 
     setPaginationParams(state => ({
       ...state,
       page: calculatePagination.page
-    }))
-    setCount(calculatePagination.count)
-    setNumberOfPages(calculatePagination.numberOfPages)
-  }
+    }));
+    setCount(calculatePagination.count);
+    setNumberOfPages(calculatePagination.numberOfPages);
+  };
 
   useEffect(() => {
     setStudies(data?.getStudies?.rows ?? []);
@@ -52,14 +62,14 @@ const Studies: React.FC = () => {
     const calculatePagination = calcPagination({
       ...paginationParams,
       count: data?.getStudies?.count ?? 0
-    })
+    });
 
     setPaginationParams(state => ({
       ...state,
       page: calculatePagination.page
-    }))
-    setCount(calculatePagination.count)
-    setNumberOfPages(calculatePagination.numberOfPages)
+    }));
+    setCount(calculatePagination.count);
+    setNumberOfPages(calculatePagination.numberOfPages);
 
     // TODO paginationParams를 넣어야 useEffect warning이 안뜨는데, 넣으면 무한루프에 빠짐
   }, [data]);
@@ -68,6 +78,13 @@ const Studies: React.FC = () => {
     <Container>
       <Typography variant="h2">스터디 리스트</Typography>
       <Box>
+        <TextField
+          label="검색"
+          name="name"
+          onChange={({ target }) =>
+            setParams(state => ({ ...state, [target.name]: target.value }))
+          }
+        />
         <Button>스터디 개설</Button>
       </Box>
       <Box>
@@ -85,16 +102,18 @@ const Studies: React.FC = () => {
           ))}
         </GridList>
 
-        <Pagination
-          page={paginationParams.page}
-          numberOfPages={numberOfPages}
-          getNewPage={getStudies}
-          prev
-          next
-        />
+        {count > paginationParams.pageSize && (
+          <Pagination
+            page={paginationParams.page}
+            numberOfPages={numberOfPages}
+            getNewPage={getStudies}
+            prev
+            next
+          />
+        )}
       </Box>
     </Container>
-  )
-}
+  );
+};
 
-export default Studies
+export default Studies;
