@@ -7,8 +7,7 @@ import {
   GridListTile,
   GridListTileBar,
   IconButton,
-  TextField,
-  Typography
+  TextField
 } from "@material-ui/core";
 import { StarBorder } from "@material-ui/icons";
 
@@ -23,8 +22,15 @@ import {
 import { IPaginationInput } from "@/interfaces/common";
 import { GET_STUDIES } from "@/queries/study";
 
+import Typography from "@/components/Typography";
 import Pagination from "@/components/Pagination";
 import calcPagination from "@/utils/calcPagination";
+
+const typographyStyles = {
+  root: {
+    marginBottom: "30px"
+  }
+};
 
 const Studies: React.FC = () => {
   const [studies, setStudies] = useState<IStudy[]>([]);
@@ -76,8 +82,8 @@ const Studies: React.FC = () => {
 
   return (
     <Container>
-      <Typography variant="h2">스터디 리스트</Typography>
-      <Box>
+      <Typography styles={typographyStyles} variant="h3" text="스터디 리스트" />
+      <Box style={{ marginBottom: 20 }}>
         <TextField
           label="검색"
           name="name"
