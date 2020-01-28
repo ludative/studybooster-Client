@@ -18,6 +18,10 @@ export interface IUserWithToken {
   };
 }
 
+export interface IUserByToken {
+  getUserByToken: IUser;
+}
+
 export interface IUserInput {
   email: string;
   password: string;

@@ -12,3 +12,13 @@ export const GET_USER_BY_ID = gql`
     }
   }
 `;
+export const GET_USER_BY_TOKEN = gql`
+  query getUserByToken {
+    getUserByToken {
+      ... on User {
+        id
+        email
+      }
+    }
+  }
+`;
