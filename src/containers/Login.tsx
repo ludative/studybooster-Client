@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/react-hooks";
 import { useHistory } from "react-router-dom";
@@ -7,9 +7,19 @@ import * as yup from "yup";
 import { IUserWithToken, IUserInput } from "@/interfaces/user";
 
 import { SIGN_IN } from "@/mutations/user";
-import { Button, TextField, Container, Grid } from "@material-ui/core";
+import {
+  Container,
+  Grid,
+  Button,
+  TextField,
+  Checkbox
+} from "@material-ui/core";
 
-import { setTokenLocalStorage } from "@/utils/localStorage";
+import {
+  setTokenLocalStorage,
+  setEmailLocalStorage,
+  getEmailLocalStorage
+} from "@/utils/localStorage";
 import errorHandler from "@/utils/errorHandler";
 
 const passwordRegex = /(?=.*[a-zA-Z])(?=.*[-₩`~!@#$%^&*=|\\\'\";\/()_+|<>?,.:{}])(?=.*[0-9]).{8,}/;
@@ -31,20 +41,40 @@ const SigninSchema = yup.object().shape({
 });
 
 const Login: React.FC = () => {
-  const { register, handleSubmit, watch, errors } = useForm<IUserInput>({
+  const { register, setValue, handleSubmit, watch, errors } = useForm<
+    IUserInput
+  >({
     validationSchema: SigninSchema
   });
 
+  const [isRememberEmail, setIsRememberEmail] = useState<boolean>(false);
+  const rememberEmail = getEmailLocalStorage() ?? "";
+  useEffect(() => {
+    if (rememberEmail) {
+      setIsRememberEmail(true);
+      setValue("email", rememberEmail);
+      console.log("watch", watch());
+    }
+  }, []);
+
   const history = useHistory();
   const [signIn] = useMutation<IUserWithToken, IUserInput>(SIGN_IN, {
-    variables: { email: watch("email"), password: watch("password") }
+    variables: {
+      email: watch("email"),
+      password: watch("password")
+    }
   });
+
+  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+    setIsRememberEmail(target.checked);
+  };
 
   const onSubmit = handleSubmit(async () => {
     try {
       const response = await signIn();
       if (response?.data?.signIn?.token) {
         setTokenLocalStorage(response.data.signIn.token);
+        setEmailLocalStorage(response.data.signIn?.user?.email);
         history.push("/");
       }
     } catch (error) {
@@ -73,6 +103,14 @@ const Login: React.FC = () => {
             error={errors?.password ? true : false}
             helperText={errors?.password?.message}
           />
+          <div>
+            <Checkbox
+              id="rememberEmail"
+              checked={isRememberEmail}
+              onChange={handleChange}
+            />
+            <label htmlFor="rememberEmail">이메일 기억하기</label>
+          </div>
           <Button type={"submit"}>Login</Button>
         </Grid>
       </form>
