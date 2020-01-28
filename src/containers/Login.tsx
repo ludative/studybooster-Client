@@ -10,6 +10,7 @@ import { SIGN_IN } from "@/mutations/user";
 import { Button, TextField, Container, Grid } from "@material-ui/core";
 
 import { setTokenLocalStorage } from "@/utils/localStorage";
+import errorHandler from "@/utils/errorHandler";
 
 const passwordRegex = /(?=.*[a-zA-Z])(?=.*[-₩`~!@#$%^&*=|\\\'\";\/()_+|<>?,.:{}])(?=.*[0-9]).{8,}/;
 const SigninSchema = yup.object().shape({
@@ -34,8 +35,6 @@ const Login: React.FC = () => {
     validationSchema: SigninSchema
   });
 
-  console.log("error", errors);
-
   const history = useHistory();
   const [signIn] = useMutation<IUserWithToken, IUserInput>(SIGN_IN, {
     variables: { email: watch("email"), password: watch("password") }
@@ -49,7 +48,7 @@ const Login: React.FC = () => {
         history.push("/");
       }
     } catch (error) {
-      alert(error.message);
+      errorHandler(error);
     }
   });
 
@@ -67,7 +66,9 @@ const Login: React.FC = () => {
           />
           <TextField
             name="password"
+            type="password"
             label="Password*"
+            autoComplete="autoComplete"
             inputRef={register({ required: true })}
             error={errors?.password ? true : false}
             helperText={errors?.password?.message}
