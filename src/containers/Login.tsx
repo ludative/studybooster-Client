@@ -53,7 +53,6 @@ const Login: React.FC = () => {
     if (rememberEmail) {
       setIsRememberEmail(true);
       setValue("email", rememberEmail);
-      console.log("watch", watch());
     }
   }, []);
 
