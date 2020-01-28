@@ -12,8 +12,10 @@ export interface IUser {
 }
 
 export interface IUserWithToken {
-  token: string;
-  user: IUser;
+  signIn: {
+    token: string;
+    user: IUser;
+  };
 }
 
 export interface IUserInput {

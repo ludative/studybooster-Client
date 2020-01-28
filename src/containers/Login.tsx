@@ -29,7 +29,7 @@ const Login: React.FC = () => {
   });
 
   const history = useHistory();
-  const [signIn] = useMutation<{ signIn: IUserWithToken }>(SIGN_IN, {
+  const [signIn] = useMutation<IUserWithToken, IUserInput>(SIGN_IN, {
     variables: { email: watch("email"), password: watch("password") }
   });
 
