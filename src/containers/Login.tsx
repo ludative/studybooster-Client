@@ -64,22 +64,26 @@ const Login: React.FC = () => {
     }
   });
 
-  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = ({
+    target
+  }: React.ChangeEvent<HTMLInputElement>): void => {
     setIsRememberEmail(target.checked);
   };
 
-  const onSubmit = handleSubmit(async () => {
-    try {
-      const response = await signIn();
-      if (response?.data?.signIn?.token) {
-        setTokenLocalStorage(response.data.signIn.token);
-        setEmailLocalStorage(response.data.signIn?.user?.email);
-        history.push("/");
+  const onSubmit = handleSubmit(
+    async (): Promise<void> => {
+      try {
+        const response = await signIn();
+        if (response?.data?.signIn?.token) {
+          setTokenLocalStorage(response.data.signIn.token);
+          setEmailLocalStorage(response.data.signIn?.user?.email);
+          history.push("/");
+        }
+      } catch (error) {
+        errorHandler(error);
       }
-    } catch (error) {
-      errorHandler(error);
     }
-  });
+  );
 
   return (
     <Container>
@@ -90,7 +94,7 @@ const Login: React.FC = () => {
             name="email"
             label="Email*"
             inputRef={register({ required: true })}
-            error={errors?.email ? true : false}
+            error={!!errors?.email}
             helperText={errors?.email?.message}
           />
           <TextField
@@ -99,7 +103,7 @@ const Login: React.FC = () => {
             label="Password*"
             autoComplete="autoComplete"
             inputRef={register({ required: true })}
-            error={errors?.password ? true : false}
+            error={!!errors?.password}
             helperText={errors?.password?.message}
           />
           <div>
