@@ -8,3 +8,10 @@ export const getTokenLocalStorage = (): string =>
 export const removeTokenLocalStorage = (): void => {
   localStorage.removeItem("sb-token");
 };
+
+export const setEmailLocalStorage = (email: string): void => {
+  localStorage.setItem("sb-email", email);
+};
+
+export const getEmailLocalStorage = (): string =>
+  localStorage.getItem("sb-email") ?? "";

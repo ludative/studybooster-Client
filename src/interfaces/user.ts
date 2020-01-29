@@ -1,4 +1,4 @@
-import {ISuccessResult} from "@/interfaces/common";
+import { ISuccessResult } from "@/interfaces/common";
 
 export interface IUser {
   id: string;
@@ -14,8 +14,14 @@ export interface IUser {
 }
 
 export interface IUserWithToken {
-  token: string;
-  user: IUser;
+  signIn: {
+    token: string;
+    user: IUser;
+  };
+}
+
+export interface IUserByToken {
+  getUserByToken: IUser;
 }
 
 export interface IUserInput {
