@@ -48,9 +48,9 @@ const Login: React.FC = () => {
   });
 
   const [isRememberEmail, setIsRememberEmail] = useState<boolean>(false);
-  const rememberEmail = getEmailLocalStorage() ?? "";
   useEffect(() => {
-    if (rememberEmail) {
+    const rememberEmail: string = getEmailLocalStorage() ?? "";
+    if (!!rememberEmail) {
       setIsRememberEmail(true);
       setValue("email", rememberEmail);
     }
