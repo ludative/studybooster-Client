@@ -11,9 +11,7 @@ import {
   TextField
 } from "@material-ui/core";
 import { StarBorder } from "@material-ui/icons";
-
 import { useQuery } from "@apollo/react-hooks";
-
 import {
   IStudiesData,
   IStudiesVariables,
@@ -22,7 +20,6 @@ import {
 } from "@/interfaces/study";
 import { IPaginationInput } from "@/interfaces/common";
 import { GET_STUDIES } from "@/queries/study";
-
 import Typography from "@/components/Typography";
 import Pagination from "@/components/Pagination";
 import calcPagination from "@/utils/calcPagination";
@@ -65,21 +62,10 @@ const Studies: React.FC = () => {
     setStudies(data?.getStudies?.rows ?? []);
     setCount(data?.getStudies?.count ?? 0);
 
-    // TODO first getStudies count가 제대로 들어가지 않아서 getStudies(1) 동작 안함
-    const calculatePagination = calcPagination({
-      ...paginationParams,
-      count: data?.getStudies?.count ?? 0
-    });
-
-    setPaginationParams(state => ({
-      ...state,
-      page: calculatePagination.page
-    }));
-    setCount(calculatePagination.count);
-    setNumberOfPages(calculatePagination.numberOfPages);
+    getStudies(1);
 
     // TODO paginationParams를 넣어야 useEffect warning이 안뜨는데, 넣으면 무한루프에 빠짐
-  }, [data]);
+  }, [data, count]);
 
   return (
     <Container>
