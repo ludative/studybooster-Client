@@ -1,7 +1,7 @@
 export default (err): void => {
   const { graphQLErrors, networkError } = err;
   const isGraphQlError = graphQLErrors && graphQLErrors.length > 0;
-  let errorMessage = "";
+  let errorMessage: string = "";
   /**
    * 1. isGraphQLError
    * 2. isNetworkError
@@ -15,7 +15,7 @@ export default (err): void => {
   }
 
   if (networkError?.message) {
-    if (errorMessage) errorMessage += `\n${networkError.message}`;
+    if (!!errorMessage) errorMessage += `\n${networkError.message}`;
     else errorMessage = networkError.message;
   }
 
