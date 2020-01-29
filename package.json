@@ -19,9 +19,11 @@
     "graphql-tag": "^2.10.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
+    "react-hook-form": "^4.5.5",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "yup": "^0.28.0"
   },
   "scripts": {
     "start": "craco start",
@@ -46,6 +48,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
     "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "@types/yup": "^0.26.27",
     "craco-alias": "^1.0.4"
   }
 }

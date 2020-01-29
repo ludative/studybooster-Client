@@ -1,12 +1,31 @@
 export interface IUser {
-  id: String;
-  email: String;
-  nickname: String;
-  introduction: String;
-  profileImage: String;
-  isAdmin: Boolean;
-  deleted: Boolean;
-  isValidEmail: Boolean;
-  createdAt: String;
-  updatedAt: String;
+  id: string;
+  email: string;
+  nickname: string;
+  introduction: string;
+  profileImage: string;
+  isAdmin: boolean;
+  deleted: boolean;
+  isValidEmail: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IUserWithToken {
+  signIn: {
+    token: string;
+    user: IUser;
+  };
+}
+
+export interface IUserByToken {
+  getUserByToken: IUser;
+}
+
+export interface IUserInput {
+  email: string;
+  password: string;
+  nickname?: string;
+  introduction?: string;
+  profileImage?: string;
 }
