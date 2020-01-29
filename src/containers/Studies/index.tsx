@@ -36,36 +36,34 @@ const Studies: React.FC = () => {
   const [numberOfPages, setNumberOfPages] = useState<number>(0);
   const [paginationParams, setPaginationParams] = useState<IPaginationInput>({
     page: 1,
-    pageSize: 12
+    pageSize: 1
   });
   const [params, setParams] = useState<IGetStudyInput>({ name: "" });
   const { data } = useQuery<IStudiesData, IStudiesVariables>(GET_STUDIES, {
-    variables: { paginationParams, params, isMine: false }
+    variables: { paginationParams, params, isMine: false },
+    fetchPolicy: "no-cache"
   });
 
-  const getStudies = page => {
-    const calculatePagination = calcPagination({
-      page,
-      pageSize: paginationParams.pageSize,
-      count
-    });
-
+  const getNewPage = (page: number): void => {
     setPaginationParams(state => ({
       ...state,
-      page: calculatePagination.page
+      page
     }));
-    setCount(calculatePagination.count);
-    setNumberOfPages(calculatePagination.numberOfPages);
   };
 
   useEffect(() => {
+    const calculatePagination = calcPagination({
+      ...paginationParams,
+      count: data?.getStudies?.count ?? 0
+    });
+
+    setCount(calculatePagination.count);
+    setNumberOfPages(calculatePagination.numberOfPages);
+
     setStudies(data?.getStudies?.rows ?? []);
-    setCount(data?.getStudies?.count ?? 0);
 
-    getStudies(1);
-
-    // TODO paginationParams를 넣어야 useEffect warning이 안뜨는데, 넣으면 무한루프에 빠짐
-  }, [data, count]);
+    // TODO paginationParams를 넣어야 useEffect warning이 안뜨는데..
+  }, [data, paginationParams]);
 
   return (
     <Container>
@@ -108,7 +106,7 @@ const Studies: React.FC = () => {
           <Pagination
             page={paginationParams.page}
             numberOfPages={numberOfPages}
-            getNewPage={getStudies}
+            getNewPage={getNewPage}
             prev
             next
           />

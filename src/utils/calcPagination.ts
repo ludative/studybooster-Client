@@ -1,20 +1,26 @@
-interface IPaginationOption {
-  page: number;
-  pageSize: number;
+import { IPaginationInput } from "@/interfaces/common";
+
+interface IPaginationOption extends IPaginationInput {
   count: number;
 }
 
-export default (option: IPaginationOption) => {
-  const { page, pageSize, count } = option
+export interface IPaginationReturn {
+  page: number;
+  numberOfPages: number;
+  count: number;
+}
 
-  let numberOfPages = 1
+export default (option: IPaginationOption): IPaginationReturn => {
+  const { page, pageSize, count } = option;
+
+  let numberOfPages = 1;
   if (count) {
-    numberOfPages = Math.ceil(+count / +pageSize)
+    numberOfPages = Math.ceil(+count / +pageSize);
   }
 
   return {
     page,
     numberOfPages,
     count
-  }
-}
+  };
+};
