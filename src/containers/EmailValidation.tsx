@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {useHistory, useParams} from "react-router-dom";
 import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_USER_IS_VALID_EMAIL} from "@/mutations/user";
@@ -9,7 +9,7 @@ const EmailValidation: React.FC = () => {
     const history = useHistory();
     const {token} = useParams();
     const [updateUserIsValidEmail] = useMutation<IUpdateUserIsValidEmailData, IUpdateUserIsValidEmailVariables>(UPDATE_USER_IS_VALID_EMAIL);
-    const updateUserIsValidEmailPromise = async (): Promise<void> => {
+    const updateUserIsValidEmailPromise = useCallback(async () => {
         try {
             const {data} = await updateUserIsValidEmail({variables: {token}});
             if (data?.updateUserIsValidEmail?.isSuccess) {
@@ -22,10 +22,12 @@ const EmailValidation: React.FC = () => {
             removeTokenLocalStorage();
             history.push('/login');
         }
-    };
+    }, [token, history, updateUserIsValidEmail]);
+
     useEffect(() => {
         updateUserIsValidEmailPromise();
-    }, []);
+    }, [updateUserIsValidEmailPromise]);
+
     return (
         <div>Loading...</div>
     )
