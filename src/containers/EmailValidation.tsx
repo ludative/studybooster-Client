@@ -9,7 +9,7 @@ const EmailValidation: React.FC = () => {
     const history = useHistory();
     const {token} = useParams();
     const [updateUserIsValidEmail] = useMutation<IUpdateUserIsValidEmailData, IUpdateUserIsValidEmailVariables>(UPDATE_USER_IS_VALID_EMAIL);
-    const updateUserIsValidEmailPromise = useCallback(async () => {
+    const updateUserIsValidEmailPromise = useCallback(async (): Promise<void> => {
         try {
             const {data} = await updateUserIsValidEmail({variables: {token}});
             if (data?.updateUserIsValidEmail?.isSuccess) {
