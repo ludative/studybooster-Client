@@ -82,11 +82,17 @@ export interface IStudiesVariables {
   isMine: boolean;
 }
 
+export interface IStudyBookmark {
+  isBookmark: boolean;
+}
+
 export interface IIsStudyBookmarkData {
-  getIsStudyBookmark: {
-    isBookmark: boolean;
-  };
+  getIsStudyBookmark: IStudyBookmark;
 }
 export interface IIsStudyBookmarkVariables {
   studyId: number;
+}
+
+export interface IToggleStudyBookmarkData {
+  toggleStudyBookmark: IStudyBookmark;
 }

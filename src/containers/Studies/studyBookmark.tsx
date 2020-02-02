@@ -1,12 +1,14 @@
 import React from "react";
 import { IconButton } from "@material-ui/core";
 import { StarBorder, Star } from "@material-ui/icons";
-import { useQuery } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import {
   IIsStudyBookmarkData,
-  IIsStudyBookmarkVariables
+  IIsStudyBookmarkVariables,
+  IToggleStudyBookmarkData
 } from "@/interfaces/study";
 import { GET_IS_STUDY_BOOKMARK } from "@/queries/study";
+import { TOGGLE_STUDY_BOOKMARK } from "@/mutations/study";
 
 interface IStudyRowProps {
   studyId: number;
@@ -20,9 +22,25 @@ const StudyBookmark: React.FC<IStudyRowProps> = ({ studyId }) => {
       fetchPolicy: "no-cache"
     }
   );
+  const [toggleStudyBookmark] = useMutation<
+    IToggleStudyBookmarkData,
+    IIsStudyBookmarkVariables
+  >(TOGGLE_STUDY_BOOKMARK);
+
+  const toggleStudyBookmarkPromise = async (): Promise<void> => {
+    try {
+      const { data } = await toggleStudyBookmark({
+        variables: { studyId }
+      });
+
+      console.log(data);
+    } catch (e) {
+      alert(e?.message);
+    }
+  };
 
   return (
-    <IconButton aria-label="star">
+    <IconButton aria-label="star" onClick={toggleStudyBookmarkPromise}>
       {data?.getIsStudyBookmark.isBookmark ? <Star /> : <StarBorder />}
     </IconButton>
   );
