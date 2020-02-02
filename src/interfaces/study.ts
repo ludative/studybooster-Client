@@ -1,5 +1,5 @@
 import { IUser } from "./user";
-import {IPaginationInput} from './common'
+import { IPaginationInput } from "./common";
 
 export interface IStudy {
   id?: string;
@@ -80,4 +80,13 @@ export interface IStudiesVariables {
   params: IGetStudyInput;
   paginationParams: IPaginationInput;
   isMine: boolean;
+}
+
+export interface IIsStudyBookmarkData {
+  getIsStudyBookmark: {
+    isBookmark: boolean;
+  };
+}
+export interface IIsStudyBookmarkVariables {
+  studyId: number;
 }

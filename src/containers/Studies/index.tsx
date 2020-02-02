@@ -7,10 +7,8 @@ import {
   GridList,
   GridListTile,
   GridListTileBar,
-  IconButton,
   TextField
 } from "@material-ui/core";
-import { StarBorder } from "@material-ui/icons";
 import { useQuery } from "@apollo/react-hooks";
 import {
   IStudiesData,
@@ -23,6 +21,7 @@ import { GET_STUDIES } from "@/queries/study";
 import Typography from "@/components/Typography";
 import Pagination from "@/components/Pagination";
 import calcPagination from "@/utils/calcPagination";
+import StudyBookmark from "./studyBookmark";
 
 const typographyStyles = {
   root: {
@@ -89,9 +88,11 @@ const Studies: React.FC = () => {
         <GridList cols={3}>
           {studies.map((study: IStudy, index: number) => (
             <GridListTile key={index}>
-              <IconButton aria-label="star">
-                <StarBorder />
-              </IconButton>
+              {/*
+              GridListTile 통째로 row 로 빼면, 스타일이 깨짐.
+              원인 불명...
+            */}
+              {study?.id && <StudyBookmark studyId={+study.id} />}
               <GridListTileBar
                 title={study.name}
                 subtitle={study.description}
