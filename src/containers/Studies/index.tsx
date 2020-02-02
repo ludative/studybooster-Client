@@ -36,7 +36,7 @@ const Studies: React.FC = () => {
   const [numberOfPages, setNumberOfPages] = useState<number>(0);
   const [paginationParams, setPaginationParams] = useState<IPaginationInput>({
     page: 1,
-    pageSize: 1
+    pageSize: 12
   });
   const [params, setParams] = useState<IGetStudyInput>({ name: "" });
   const { data } = useQuery<IStudiesData, IStudiesVariables>(GET_STUDIES, {
@@ -61,8 +61,6 @@ const Studies: React.FC = () => {
     setNumberOfPages(calculatePagination.numberOfPages);
 
     setStudies(data?.getStudies?.rows ?? []);
-
-    // TODO paginationParams를 넣어야 useEffect warning이 안뜨는데..
   }, [data, paginationParams]);
 
   return (
