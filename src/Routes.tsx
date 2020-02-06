@@ -13,8 +13,7 @@ import EmailValidation from "@/containers/EmailValidation";
 export default () => {
   const theme = createMuiTheme({
     palette: {
-      primary: teal,
-      error: teal
+      primary: teal
     }
   });
 
