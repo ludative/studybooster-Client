@@ -5,6 +5,10 @@ export const setTokenLocalStorage = (token: string): void => {
 export const getTokenLocalStorage = (): string =>
   localStorage.getItem("sb-token") ?? "";
 
+export const removeTokenLocalStorage = (): void => {
+  localStorage.removeItem("sb-token");
+};
+
 export const setEmailLocalStorage = (email: string): void => {
   localStorage.setItem("sb-email", email);
 };

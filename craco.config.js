@@ -3,6 +3,7 @@ const CracoAlias = require("craco-alias");
 module.exports = {
   babel: {
     plugins: [
+      "@babel/plugin-transform-typescript",
       "@babel/plugin-proposal-optional-chaining",
       "@babel/plugin-proposal-nullish-coalescing-operator"
     ]

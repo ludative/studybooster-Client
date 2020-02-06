@@ -77,8 +77,13 @@ const Login: React.FC = () => {
         if (response?.data?.signIn?.token) {
           setTokenLocalStorage(response.data.signIn.token);
           setEmailLocalStorage(response.data.signIn?.user?.email);
-          history.push("/");
         }
+
+        if (!response?.data?.signIn?.user?.isValidEmail) {
+          return history.push("/resend-email");
+        }
+
+        history.push("/");
       } catch (error) {
         errorHandler(error);
       }
