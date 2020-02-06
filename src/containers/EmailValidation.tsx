@@ -4,6 +4,7 @@ import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_USER_IS_VALID_EMAIL} from "@/mutations/user";
 import {IUpdateUserIsValidEmailData, IUpdateUserIsValidEmailVariables} from "@/interfaces/user";
 import {removeTokenLocalStorage, setTokenLocalStorage} from "@/utils/localStorage";
+import errorHandler from "@/utils/errorHandler";
 
 const EmailValidation: React.FC = () => {
     const history = useHistory();
@@ -18,7 +19,7 @@ const EmailValidation: React.FC = () => {
                 history.push('/');
             }
         } catch (e) {
-            alert(e?.message);
+            errorHandler(e);
             removeTokenLocalStorage();
             history.push('/login');
         }
