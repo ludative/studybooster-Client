@@ -36,14 +36,15 @@ const Login: React.FC = () => {
   const onSubmit = handleSubmit(async () => {
     try {
       const response = await signIn();
+      if (response?.data?.signIn?.token) {
+        setTokenLocalStorage(response.data.signIn.token);
+      }
+
       if (!response?.data?.signIn?.user?.isValidEmail) {
           return history.push("/resend-email");
       }
 
-      if (response?.data?.signIn?.token) {
-        setTokenLocalStorage(response.data.signIn.token);
-        history.push("/");
-      }
+      history.push("/");
     } catch (error) {
       alert(error.message);
     }
