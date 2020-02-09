@@ -1,4 +1,4 @@
-import {ISuccessResult} from "@/interfaces/common";
+import { ISuccessResult } from "@/interfaces/common";
 
 export interface IUser {
   id: string;

@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import {createMuiTheme, ThemeProvider} from "@material-ui/core";
-import {teal} from "@material-ui/core/colors";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { teal } from "@material-ui/core/colors";
 
 // Pages
 import Main from "@/containers/Main";
@@ -14,18 +14,18 @@ export default () => {
   const theme = createMuiTheme({
     palette: {
       primary: teal
-    },
+    }
   });
 
   return (
-      <Router>
-        <ThemeProvider theme={theme}>
-          <Route exact path="/" component={Main} />
-          <Route exact path="/studies" component={Studies} />
-          <Route path="/login" component={Login} />
-          <Route exact path={"/resend-email"} component={ResendEmail}/>
-          <Route exact path={"/validation/:token"} component={EmailValidation}/>
-        </ThemeProvider>
-      </Router>
-  )
-}
+    <Router>
+      <ThemeProvider theme={theme}>
+        <Route exact path="/" component={Main} />
+        <Route exact path="/studies" component={Studies} />
+        <Route path="/login" component={Login} />
+        <Route exact path={"/resend-email"} component={ResendEmail} />
+        <Route exact path={"/validation/:token"} component={EmailValidation} />
+      </ThemeProvider>
+    </Router>
+  );
+};
