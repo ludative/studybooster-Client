@@ -1,4 +1,4 @@
-export default (err): void => {
+export default (err): string => {
   const { graphQLErrors, networkError } = err;
   const isGraphQlError = graphQLErrors && graphQLErrors.length > 0;
   let errorMessage: string = "";
@@ -19,5 +19,5 @@ export default (err): void => {
     else errorMessage = networkError.message;
   }
 
-  alert(errorMessage);
+  return errorMessage;
 };

@@ -1,4 +1,4 @@
-import React, { Dispatch } from "react";
+import React from "react";
 import { IconButton } from "@material-ui/core";
 import { StarBorder, Star } from "@material-ui/icons";
 import { useMutation, useQuery } from "@apollo/react-hooks";
@@ -10,11 +10,11 @@ import {
 import { GET_IS_STUDY_BOOKMARK } from "@/queries/study";
 import { TOGGLE_STUDY_BOOKMARK } from "@/mutations/study";
 import withToast from "@/withToast";
-import { IToastValues } from "@/hooks/useToast";
+import { IToastFunction } from "@/interfaces/common";
+import errorHandler from "@/utils/errorHandler";
 
-interface IStudyRowProps {
+interface IStudyRowProps extends IToastFunction {
   studyId: number;
-  setToast: Dispatch<IToastValues>;
 }
 
 const StudyBookmark: React.FC<IStudyRowProps> = ({ studyId, setToast }) => {
@@ -42,7 +42,7 @@ const StudyBookmark: React.FC<IStudyRowProps> = ({ studyId, setToast }) => {
       });
     } catch (e) {
       setToast({
-        message: e.message,
+        message: errorHandler(e),
         type: "error"
       });
     }

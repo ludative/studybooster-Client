@@ -21,6 +21,8 @@ import {
   getEmailLocalStorage
 } from "@/utils/localStorage";
 import errorHandler from "@/utils/errorHandler";
+import withToast from "@/withToast";
+import { IToastFunction } from "@/interfaces/common";
 
 const passwordRegex = /(?=.*[a-zA-Z])(?=.*[-₩`~!@#$%^&*=|\\\'\";\/()_+|<>?,.:{}])(?=.*[0-9]).{8,}/;
 const SigninSchema = yup.object().shape({
@@ -40,7 +42,7 @@ const SigninSchema = yup.object().shape({
     )
 });
 
-const Login: React.FC = () => {
+const Login: React.FC<IToastFunction> = ({ setToast }) => {
   const { register, setValue, handleSubmit, watch, errors } = useForm<
     IUserInput
   >({
@@ -89,7 +91,10 @@ const Login: React.FC = () => {
 
         history.push("/");
       } catch (error) {
-        errorHandler(error);
+        setToast({
+          message: errorHandler(error),
+          type: "error"
+        });
       }
     }
   );
@@ -130,4 +135,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default withToast(Login);

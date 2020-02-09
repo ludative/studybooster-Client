@@ -1,37 +1,49 @@
-import React, {useCallback, useEffect} from "react";
-import {useHistory, useParams} from "react-router-dom";
-import {useMutation} from "@apollo/react-hooks";
-import {UPDATE_USER_IS_VALID_EMAIL} from "@/mutations/user";
-import {IUpdateUserIsValidEmailData, IUpdateUserIsValidEmailVariables} from "@/interfaces/user";
-import {removeTokenLocalStorage, setTokenLocalStorage} from "@/utils/localStorage";
+import React, { useCallback, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { useMutation } from "@apollo/react-hooks";
+import { UPDATE_USER_IS_VALID_EMAIL } from "@/mutations/user";
+import {
+  IUpdateUserIsValidEmailData,
+  IUpdateUserIsValidEmailVariables
+} from "@/interfaces/user";
+import {
+  removeTokenLocalStorage,
+  setTokenLocalStorage
+} from "@/utils/localStorage";
 import errorHandler from "@/utils/errorHandler";
+import withToast from "@/withToast";
+import { IToastFunction } from "@/interfaces/common";
 
-const EmailValidation: React.FC = () => {
-    const history = useHistory();
-    const {token} = useParams();
-    const [updateUserIsValidEmail] = useMutation<IUpdateUserIsValidEmailData, IUpdateUserIsValidEmailVariables>(UPDATE_USER_IS_VALID_EMAIL);
-    const updateUserIsValidEmailPromise = useCallback(async (): Promise<void> => {
-        try {
-            const {data} = await updateUserIsValidEmail({variables: {token}});
-            if (data?.updateUserIsValidEmail?.isSuccess) {
-                alert('이메일 검증이 완료되었습니다.');
-                setTokenLocalStorage(token);
-                history.push('/');
-            }
-        } catch (e) {
-            errorHandler(e);
-            removeTokenLocalStorage();
-            history.push('/login');
-        }
-    }, [token, history, updateUserIsValidEmail]);
+const EmailValidation: React.FC<IToastFunction> = ({ setToast }) => {
+  const history = useHistory();
+  const { token } = useParams();
+  const [updateUserIsValidEmail] = useMutation<
+    IUpdateUserIsValidEmailData,
+    IUpdateUserIsValidEmailVariables
+  >(UPDATE_USER_IS_VALID_EMAIL);
+  const updateUserIsValidEmailPromise = useCallback(async (): Promise<void> => {
+    try {
+      const { data } = await updateUserIsValidEmail({ variables: { token } });
+      if (data?.updateUserIsValidEmail?.isSuccess) {
+        alert("이메일 검증이 완료되었습니다.");
+        setTokenLocalStorage(token);
+        history.push("/");
+      }
+    } catch (e) {
+      setToast({
+        message: errorHandler(e),
+        type: "error"
+      });
+      removeTokenLocalStorage();
+      history.push("/login");
+    }
+  }, [token, history, updateUserIsValidEmail]);
 
-    useEffect(() => {
-        updateUserIsValidEmailPromise();
-    }, [updateUserIsValidEmailPromise]);
+  useEffect(() => {
+    updateUserIsValidEmailPromise();
+  }, [updateUserIsValidEmailPromise]);
 
-    return (
-        <div>Loading...</div>
-    )
+  return <div>Loading...</div>;
 };
 
-export default EmailValidation;
+export default withToast(EmailValidation);
