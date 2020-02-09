@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch } from "react";
 import { IconButton } from "@material-ui/core";
 import { StarBorder, Star } from "@material-ui/icons";
 import { useMutation, useQuery } from "@apollo/react-hooks";
@@ -9,12 +9,15 @@ import {
 } from "@/interfaces/study";
 import { GET_IS_STUDY_BOOKMARK } from "@/queries/study";
 import { TOGGLE_STUDY_BOOKMARK } from "@/mutations/study";
+import withToast from "@/withToast";
+import { IToastValues } from "@/hooks/useToast";
 
 interface IStudyRowProps {
   studyId: number;
+  setToast: Dispatch<IToastValues>;
 }
 
-const StudyBookmark: React.FC<IStudyRowProps> = ({ studyId }) => {
+const StudyBookmark: React.FC<IStudyRowProps> = ({ studyId, setToast }) => {
   const { data } = useQuery<IIsStudyBookmarkData, IIsStudyBookmarkVariables>(
     GET_IS_STUDY_BOOKMARK,
     {
@@ -29,13 +32,19 @@ const StudyBookmark: React.FC<IStudyRowProps> = ({ studyId }) => {
 
   const toggleStudyBookmarkPromise = async (): Promise<void> => {
     try {
-      const { data } = await toggleStudyBookmark({
+      await toggleStudyBookmark({
         variables: { studyId }
       });
 
-      console.log(data);
+      setToast({
+        message: "북마크에 추가되었습니다!",
+        type: "success"
+      });
     } catch (e) {
-      alert(e?.message);
+      setToast({
+        message: e.message,
+        type: "error"
+      });
     }
   };
 
@@ -46,4 +55,4 @@ const StudyBookmark: React.FC<IStudyRowProps> = ({ studyId }) => {
   );
 };
 
-export default StudyBookmark;
+export default withToast(StudyBookmark);
